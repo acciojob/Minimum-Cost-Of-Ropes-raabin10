@@ -1,6 +1,6 @@
 function calculateMinCost() {
   // Get the input text and split it into an array of integers
-  const inputText = document.getElementById("ropeInput").value;
+  const inputText = document.getElementById("rope-lengths").value;
   const ropeLengths = inputText.split(",").map(Number);
 
   // Sort the rope lengths in ascending order
@@ -34,7 +34,7 @@ function calculateMinCost() {
 }
 
 // Attach the function to the form's submit event
-const form = document.getElementById("ropeForm");
+const form = document.getElementById("form");
 form.addEventListener("submit", function (event) {
   event.preventDefault(); // Prevent the default form submission
   calculateMinCost(); // Calculate and display the minimum cost
