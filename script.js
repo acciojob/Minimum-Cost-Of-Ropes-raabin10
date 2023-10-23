@@ -1,6 +1,6 @@
 function calculateMinCost() {
   // Get the input text and split it into an array of integers
-  const inputText = document.getElementById("ropeInput").value;
+  const inputText = document.getElementById("rope-lengths").value;
   const ropeLengths = inputText.split(",").map(Number);
 
   // Create a min-heap (priority queue)
