@@ -1,24 +1,22 @@
-<!DOCTYPE html>
 
 <html>
-
 <head>
+    <title>Minimum Rope Cost Calculator</title>
 </head>
-
 <body>
-    <form id="form">
-        <label for="rope-lengths">Enter rope lengths:</label>
-        <input type="text" id="rope-lengths">
-        <button type="button" onclick="calculateMinCost()">Calculate</button>
-      </form>
-      <div id="result"></div>
+    <h1>Minimum Rope Cost Calculator</h1>
+    
+    <form id="ropeForm">
+        <label for="ropeInput">Enter rope lengths (comma-separated):</label>
+        <input type="text" id="ropeInput" required>
+        <button type="submit">Calculate</button>
+    </form>
 
-<script>
-    type="text/javascript" src="./script.js"
+    <div id="result">
+        <!-- The minimum cost will be displayed here -->
+    </div>
 
-  </script>
-  
-
+    <script src="script.js"></script>
 </body>
-
 </html>
+
