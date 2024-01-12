@@ -1,93 +1,66 @@
 function calculateMinCost() {
-  // Get the input text and split it into an array of integers
-  const inputText = document.getElementById("rope-lengths").value;
-  const ropeLengths = inputText.split(",").map(Number);
-
-  // Create a min-heap (priority queue)
-  const minHeap = new MinHeap();
-
-  // Insert the rope lengths into the min-heap
-  for (const length of ropeLengths) {
+ const ropeLengths = document.getElementById('rope-lengths').value.split(',').map(Number);
+ const minHeap = new MinHeap();
+  
+ ropeLengths.forEach(length => {
     minHeap.insert(length);
-  }
-
-  // Initialize the total cost to 0
-  let totalCost = 0;
-
-  // Continue merging ropes until there is only one rope left in the min-heap
-  while (minHeap.size() > 1) {
-    // Extract the two smallest ropes from the min-heap
+ });
+  
+ let totalCost = 0;
+ while (minHeap.size > 1) {
     const rope1 = minHeap.extractMin();
     const rope2 = minHeap.extractMin();
-
-    // Calculate the cost of merging the two ropes
-    const cost = rope1 + rope2;
-
-    // Add the cost to the total cost
-    totalCost += cost;
-
-    // Insert the merged rope back into the min-heap
-    minHeap.insert(cost);
-  }
-
-  // Display the minimum cost in the result div
-  const resultDiv = document.getElementById("result");
-  resultDiv.textContent = totalCost;
+    totalCost += rope1 + rope2;
+    minHeap.insert(rope1 + rope2);
+ }
+  
+ document.getElementById('result').innerText = totalCost;
 }
 
-// MinHeap class for priority queue operations
 class MinHeap {
-  constructor() {
+ constructor() {
     this.heap = [];
-  }
-
-  size() {
+ }
+  
+ size() {
     return this.heap.length;
-  }
-
-  insert(value) {
+ }
+  
+ insert(value) {
     this.heap.push(value);
-    this.bubbleUp(this.size() - 1);
-  }
-
-  extractMin() {
-    if (this.size() === 0) {
-      return null;
+    this.bubbleUp(this.heap.length - 1);
+ }
+  
+ extractMin() {
+    const min = this.heap[0];
+    this.heap[0] = this.heap[this.heap.length - 1];
+    this.heap.pop();
+    this.bubbleDown(0);
+    return min;
+ }
+  
+ bubbleUp(index) {
+    if (index === 0) return;
+    const parentIndex = Math.floor((index - 1) / 2);
+    if (this.heap[index] < this.heap[parentIndex]) {
+      [this.heap[index], this.heap[parentIndex]] = [this.heap[parentIndex], this.heap[index]];
+      this.bubbleUp(parentIndex);
     }
-    if (this.size() === 1) {
-      return this.heap.pop();
-    }
-    const minValue = this.heap[0];
-    this.heap[0] = this.heap.pop();
-    this.sinkDown(0);
-    return minValue;
-  }
-
-  bubbleUp(index) {
-    while (index > 0) {
-      const parentIndex = Math.floor((index - 1) / 2);
-      if (this.heap[index] < this.heap[parentIndex]) {
-        [this.heap[index], this.heap[parentIndex]] = [this.heap[parentIndex], this.heap[index]];
-        index = parentIndex;
-      } else {
-        break;
-      }
-    }
-  }
-
-  sinkDown(index) {
+ }
+  
+ bubbleDown(index) {
     const leftChildIndex = 2 * index + 1;
     const rightChildIndex = 2 * index + 2;
-    let smallest = index;
-    if (leftChildIndex < this.size() && this.heap[leftChildIndex] < this.heap[smallest]) {
-      smallest = leftChildIndex;
+    let smallestIndex = index;
+    if (leftChildIndex < this.heap.length && this.heap[leftChildIndex] < this.heap[smallestIndex]) {
+      smallestIndex = leftChildIndex;
     }
-    if (rightChildIndex < this.size() && this.heap[rightChildIndex] < this.heap[smallest]) {
-      smallest = rightChildIndex;
+    if (rightChildIndex < this.heap.length && this.heap[rightChildIndex] < this.heap[smallestIndex]) {
+      smallestIndex = rightChildIndex;
     }
-    if (smallest !== index) {
-      [this.heap[index], this.heap[smallest]] = [this.heap[smallest], this.heap[index]];
-      this.sinkDown(smallest);
+    if (smallestIndex !== index) {
+      [this.heap[index], this.heap[smallestIndex]] = [this.heap[smallestIndex], this.heap[index]];
+      this.bubbleDown(smallestIndex);
     }
-  }
+ }
 }
